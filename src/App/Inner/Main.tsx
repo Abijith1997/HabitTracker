@@ -6,7 +6,7 @@ import type { User } from "@supabase/supabase-js";
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
 import { setLogs } from "../../store/habitSlice";
-import { Tracker } from "./Tracker";
+import { Tracker } from "./TrackerComponents/Tracker";
 
 interface MainProps {
   user: User;
@@ -89,7 +89,7 @@ export const Main = ({ user }: MainProps) => {
         user={user}
         setShouldRefetch={setShouldRefetch}
       />
-      <Tracker />
+      <Tracker habits={habits} />
     </div>
   );
 };

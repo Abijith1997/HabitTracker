@@ -38,7 +38,11 @@ export const Create = ({ user, userHasHabits, setShouldRefetch }: Props) => {
         }`}
       >
         <div className="accordion">
-          <AddNew user={user} setShouldRefetch={setShouldRefetch} />
+          <AddNew
+            user={user}
+            setShouldRefetch={setShouldRefetch}
+            setIsOpen={setIsOpen}
+          />
         </div>
       </div>
     </div>

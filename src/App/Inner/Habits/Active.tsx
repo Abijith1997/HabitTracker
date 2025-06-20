@@ -48,7 +48,7 @@ export const Active = ({
   };
   return (
     <div className="flex w-full p-10">
-      <div className="flex flex-1 justify-between items-center gap-2 ">
+      <div className="flex justify-start items-center gap-x-10 gap-y-5 flex-wrap">
         {habits.map((habit, index) => (
           <div
             className="flex border-1 p-2 rounded-md hover:scale-102 shadow-md  gap-2 w-[300px] items-center justify-between transition-all duration-150 ease-in-out flex-wrap"

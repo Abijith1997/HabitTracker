@@ -8,9 +8,11 @@ import { cn } from "../../../lib/utils";
 export const AddNew = ({
   user,
   setShouldRefetch,
+  setIsOpen,
 }: {
   user: User;
   setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const dispatch = useDispatch<AppDispatch>();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,6 +51,9 @@ export const AddNew = ({
       const result = await dispatch(addHabitToDB(newHabit)).unwrap();
       console.log("✅ Habit added:", result.payload);
       setShouldRefetch((prev) => !prev);
+      setIsOpen(false);
+      inputRef.current!.value = "";
+      setSelectedColor("");
     } catch (error) {
       console.error("❌ Unexpected error adding habit:", error);
     }
