@@ -12,7 +12,7 @@ export interface HabitLog {
   color: string;
 }
 
-interface HabitState {
+export interface HabitState {
   logs: HabitLog[];
 }
 

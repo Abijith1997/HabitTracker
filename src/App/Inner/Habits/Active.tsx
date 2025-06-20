@@ -8,9 +8,15 @@ interface ActiveProps {
   userHasHabits: boolean;
   habits: habitProps[];
   user: User;
+  setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const Active = ({ userHasHabits, habits, user }: ActiveProps) => {
+export const Active = ({
+  userHasHabits,
+  habits,
+  user,
+  setShouldRefetch,
+}: ActiveProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   if (!userHasHabits) {
@@ -24,7 +30,7 @@ export const Active = ({ userHasHabits, habits, user }: ActiveProps) => {
     const newLog = {
       uid: user?.id,
       habit_name: habit.habit_name,
-      logs: today,
+      log_date: today,
       created_at: new Date().toISOString(),
       color: habit.color,
     };
@@ -33,7 +39,9 @@ export const Active = ({ userHasHabits, habits, user }: ActiveProps) => {
       .unwrap()
       .then((res) => {
         console.log("✅ Log added:", res);
+        setShouldRefetch((prev) => !prev);
       })
+
       .catch((err) => {
         console.error("❌ Failed to add log:", err);
       });

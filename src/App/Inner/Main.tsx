@@ -21,9 +21,12 @@ export interface habitProps {
 export const Main = ({ user }: MainProps) => {
   const habitLogs = useSelector((state: RootState) => state.habits.logs);
   const [habits, setHabits] = useState<habitProps[]>([]);
+  const [shouldRefetch, setShouldRefetch] = useState(false);
   const dispatch = useDispatch();
   const [userHasHabits, setUserHasHabits] = useState<boolean>(false);
+
   useEffect(() => {
+    console.log(shouldRefetch, "Should Refetch");
     const fetchUserHabits = async () => {
       const { data, error } = await supabase
         .from("HabitLogs")
@@ -38,22 +41,21 @@ export const Main = ({ user }: MainProps) => {
       }
     };
     fetchUserHabits();
-  }, []);
+  }, [shouldRefetch]);
 
   useEffect(() => {
-    if (habitLogs.length > 0 && userHasHabits) {
+    if (habitLogs.length > 0) {
       const habitMap = new Map<string, { color: string; logs: string[] }>();
-      console.log(habitLogs, "HabitLogs");
 
       habitLogs.forEach((log) => {
-        if (!habitMap.has(log.habit_name)) {
+        const existing = habitMap.get(log.habit_name);
+        if (existing) {
+          existing.logs.push(log.log_date);
+        } else {
           habitMap.set(log.habit_name, {
             color: log.color,
             logs: [log.log_date],
           });
-          console.log(log, "logs");
-        } else {
-          habitMap.get(log.habit_name)!.logs.push(log.log_date);
         }
       });
 
@@ -76,8 +78,17 @@ export const Main = ({ user }: MainProps) => {
 
   return (
     <div className="flex justify-start  h-screen w-screen sm:p-25 pt-5 flex-col items-start">
-      <Create user={user} userHasHabits={userHasHabits} />
-      <Active userHasHabits={userHasHabits} habits={habits} user={user} />
+      <Create
+        user={user}
+        userHasHabits={userHasHabits}
+        setShouldRefetch={setShouldRefetch}
+      />
+      <Active
+        userHasHabits={userHasHabits}
+        habits={habits}
+        user={user}
+        setShouldRefetch={setShouldRefetch}
+      />
       <Tracker />
     </div>
   );

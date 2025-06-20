@@ -31,7 +31,7 @@ function App() {
 
   return (
     <>
-      <Router>
+      <Router basename="/HabitTracker">
         <Routes>
           <Route path="/" element={user ? <Home user={user} /> : <Login />} />
           <Route path="/login" element={<Login />} />

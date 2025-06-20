@@ -5,7 +5,13 @@ import { addHabitToDB } from "../../../store/habitSlice";
 import { type AppDispatch } from "../../../store/store";
 import { cn } from "../../../lib/utils";
 
-export const AddNew = ({ user }: { user: User }) => {
+export const AddNew = ({
+  user,
+  setShouldRefetch,
+}: {
+  user: User;
+  setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const dispatch = useDispatch<AppDispatch>();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedColor, setSelectedColor] = useState<string>("");
@@ -40,13 +46,9 @@ export const AddNew = ({ user }: { user: User }) => {
     };
 
     try {
-      const result = await dispatch(addHabitToDB(newHabit));
-
-      if (addHabitToDB.fulfilled.match(result)) {
-        console.log("✅ Habit added:", result.payload);
-      } else {
-        console.error("❌ Failed to add habit:", result.payload);
-      }
+      const result = await dispatch(addHabitToDB(newHabit)).unwrap();
+      console.log("✅ Habit added:", result.payload);
+      setShouldRefetch((prev) => !prev);
     } catch (error) {
       console.error("❌ Unexpected error adding habit:", error);
     }

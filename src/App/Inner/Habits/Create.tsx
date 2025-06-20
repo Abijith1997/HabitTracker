@@ -6,8 +6,9 @@ import type { User } from "@supabase/supabase-js";
 interface Props {
   user: User;
   userHasHabits: boolean;
+  setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const Create = ({ user, userHasHabits }: Props) => {
+export const Create = ({ user, userHasHabits, setShouldRefetch }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const Button =
     "flex items-center gap-2 focus:outline-none bg-stone-800 py-2 px-3 rounded-md text-white shadow-md hover:bg-stone-700 cursor-pointer";
@@ -37,7 +38,7 @@ export const Create = ({ user, userHasHabits }: Props) => {
         }`}
       >
         <div className="accordion">
-          <AddNew user={user} />
+          <AddNew user={user} setShouldRefetch={setShouldRefetch} />
         </div>
       </div>
     </div>
