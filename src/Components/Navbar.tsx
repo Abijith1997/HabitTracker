@@ -10,9 +10,10 @@ import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
   const navigate = useNavigate();
+
   return (
-    <div className="fixed bg-black/50 w-full h-20 px-5 flex items-center justify-between navbar font-open font-extrabold font-stretch-75% font-sans z-100 opacity-100">
-      <div className="app-name">
+    <div className="fixed bg-black/50 w-full h-20 px-5 flex items-center justify-between navbar font-open font-extrabold font-stretch-75% font-sans z-[100] opacity-100">
+      <div className="app-name flex items-center gap-2 justify-center">
         <h1 className="text-bold text-white font-open px-1 bg-yellow">
           Tracker
         </h1>

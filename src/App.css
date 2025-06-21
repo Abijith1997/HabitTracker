@@ -21,3 +21,21 @@
   display: none;
 }
 
+.drawer.active {
+  width: 200px;
+  transform: translateX(0);
+}
+
+.drawer {
+  transform: translateX(-100%);
+}
+
+.bg-muted {
+  display: hidden !important;
+}
+
+[data-slot="drawer-content"]::after {
+  display: none !important;
+  content: none !important;
+}
+

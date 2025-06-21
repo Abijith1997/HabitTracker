@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import type { User } from "@supabase/supabase-js";
 import { addHabitToDB } from "../../../store/habitSlice";
@@ -17,6 +17,8 @@ export const AddNew = ({
   const dispatch = useDispatch<AppDispatch>();
   const inputRef = useRef<HTMLInputElement>(null);
   const [selectedColor, setSelectedColor] = useState<string>("");
+  const [color, setColor] = useState<string>("");
+
   const colors = [
     "bg-red-500",
     "bg-green-500",
@@ -33,6 +35,29 @@ export const AddNew = ({
     setSelectedColor(color);
   };
 
+  useEffect(() => {
+    switch (selectedColor) {
+      case "bg-red-500":
+        setColor("red");
+        break;
+      case "bg-green-500":
+        setColor("green");
+        break;
+      case "bg-blue-500":
+        setColor("blue");
+        break;
+      case "bg-yellow-500":
+        setColor("yellow");
+        break;
+      case "bg-purple-500":
+        setColor("purple");
+        break;
+      default:
+        setColor("");
+        break;
+    }
+  });
+
   const addHabit = async () => {
     const habitName = inputRef.current?.value || "";
 
@@ -43,7 +68,7 @@ export const AddNew = ({
     const newHabit = {
       uid: user.id,
       habit_name: habitName,
-      color: selectedColor,
+      color: color,
       created_at: new Date().toISOString(),
     };
 

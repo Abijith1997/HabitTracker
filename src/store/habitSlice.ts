@@ -5,6 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import type { Habit } from "../types";
 import { supabase } from "../supabaseClient";
+import type { habitProps } from "../App/Inner/Main";
 
 export interface HabitLog {
   habit_name: string;
@@ -34,6 +35,20 @@ export const addHabitToDB = createAsyncThunk(
     }
 
     return data[0]; // return inserted habit
+  }
+);
+
+export const deleteHabitFromDB = createAsyncThunk(
+  "habits/deleteHabitFromBD",
+  async (habit: habitProps, { rejectWithValue }) => {
+    const { error } = await supabase
+      .from("HabitLogs")
+      .delete()
+      .eq("habit_name", habit.habit_name);
+    if (error) {
+      console.error("Error while deleting habit:", error.message);
+      return rejectWithValue(error.message);
+    }
   }
 );
 
