@@ -17,7 +17,11 @@
   justify-content: center;
 }
 
-.tracker::-webkit-scrollbar {
+.log-table::-webkit-scrollbar, .tracker::-webkit-scrollbar {
+  display: none;
+}
+
+.container::-webkit-scrollbar, .tracker::-webkit-scrollbar {
   display: none;
 }
 

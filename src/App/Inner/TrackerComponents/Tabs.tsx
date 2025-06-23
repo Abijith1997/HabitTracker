@@ -1,14 +1,10 @@
-import { Button } from "../../../Components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../../../Components/ui/card";
-import { Input } from "../../../Components/ui/input";
-import { Label } from "../../../Components/ui/label";
 import {
   Tabs,
   TabsContent,
@@ -25,7 +21,6 @@ interface TrackerTabsProps {
 
 export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
   const setCardBg = (color: string) => {
-    console.log(color);
     switch (color) {
       case "red":
         return "bg-red-500/10";

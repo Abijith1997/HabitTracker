@@ -25,10 +25,6 @@ function App() {
     fetchUser();
   }, []); // <- Run only once on component mount
 
-  useEffect(() => {
-    console.log(user);
-  }, [user]);
-
   return (
     <>
       <Router basename="/HabitTracker">

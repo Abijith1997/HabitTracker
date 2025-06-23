@@ -26,7 +26,6 @@ export const Main = ({ user }: MainProps) => {
   const [userHasHabits, setUserHasHabits] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log(shouldRefetch, "Should Refetch");
     const fetchUserHabits = async () => {
       const { data, error } = await supabase
         .from("HabitLogs")
@@ -72,16 +71,13 @@ export const Main = ({ user }: MainProps) => {
     }
   }, [habitLogs, userHasHabits]);
 
-  useEffect(() => {
-    console.log(habits, "Habits");
-  }, [habits]);
-
   return (
     <div className="flex justify-start  h-screen w-screen sm:p-25 pt-5 flex-col items-start">
       <Create
         user={user}
         userHasHabits={userHasHabits}
         setShouldRefetch={setShouldRefetch}
+        habitLogs={habitLogs}
       />
       <Active
         userHasHabits={userHasHabits}

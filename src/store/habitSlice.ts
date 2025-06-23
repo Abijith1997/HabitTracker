@@ -11,6 +11,7 @@ export interface HabitLog {
   habit_name: string;
   log_date: string;
   color: string;
+  id: number;
 }
 
 export interface HabitState {
@@ -45,6 +46,20 @@ export const deleteHabitFromDB = createAsyncThunk(
       .from("HabitLogs")
       .delete()
       .eq("habit_name", habit.habit_name);
+    if (error) {
+      console.error("Error while deleting habit:", error.message);
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const deleteLogFromDB = createAsyncThunk(
+  "habits/deleteLogFromDB",
+  async (habit: HabitLog, { rejectWithValue }) => {
+    const { error } = await supabase
+      .from("HabitLogs")
+      .delete()
+      .eq("id", habit.id);
     if (error) {
       console.error("Error while deleting habit:", error.message);
       return rejectWithValue(error.message);

@@ -26,7 +26,6 @@ export const Active = ({
   }
 
   const AddLog = (habit: habitProps) => {
-    console.log(habit);
     const today = new Date().toISOString().split("T")[0]; // e.g., "2025-06-19"
 
     const newLog = {
@@ -36,7 +35,6 @@ export const Active = ({
       created_at: new Date().toISOString(),
       color: habit.color,
     };
-    console.log(newLog);
     dispatch(addHabitToDB(newLog))
       .unwrap()
       .then((res) => {
@@ -50,7 +48,6 @@ export const Active = ({
   };
 
   const deleteHabit = (habit: habitProps) => {
-    console.log(habit);
     dispatch(deleteHabitFromDB(habit))
       .unwrap()
       .then((res) => {
@@ -64,7 +61,6 @@ export const Active = ({
   };
 
   const setBgColor = (color: string) => {
-    console.log(color);
     switch (color) {
       case "red":
         return "bg-red-500/10";
@@ -82,7 +78,6 @@ export const Active = ({
   };
 
   const setButtonBorder = (color: string) => {
-    console.log(color);
     switch (color) {
       case "red":
         return "border-red-400/50";
@@ -100,7 +95,6 @@ export const Active = ({
   };
 
   const setButtonColor = (color: string) => {
-    console.log(color);
     switch (color) {
       case "red":
         return "bg-red-400/50";
