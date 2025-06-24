@@ -8,7 +8,7 @@ export const Login = () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: `${window.location.origin}/`, // This ensures the OAuth flow uses a pop-up and doesn't redirect the user
+        redirectTo: `${window.location.origin}${window.location.pathname}`,
       },
     });
 
@@ -29,7 +29,7 @@ export const Login = () => {
   };
   return (
     <div className="h-screen w-screen bg-[var(--background)] flex items-center justify-center">
-      <div className="items-center justify-center sm:justify-start sm:max-h-[600px] max-w-[450px] bg-gray-400 h-full w-full rounded-md sm:rounded-0 shadow-lg flex flex-col text-black sm:items-start p-10 gap-5">
+      <div className="items-center justify-center sm:justify-start sm:max-h-[600px] max-w-[450px] bg-gray-400 h-full w-full sm:rounded-md sm:rounded-0 shadow-lg flex flex-col text-black sm:items-start p-10 gap-5">
         <div className="heading w-full text-center font-extrabold text-md sm:text-2xl font-stretch-120%">
           Login
         </div>
