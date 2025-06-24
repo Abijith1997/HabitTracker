@@ -58,7 +58,7 @@ export const Login = () => {
         <div className="flex items-center justify-center w-full">
           <Button
             variant="solid"
-            className="w-auto h-10 flex items-center justify-center gap-2 text-black"
+            className="w-auto h-10 flex items-center justify-center gap-2 text-white rounded-md "
             color="primary"
           >
             Login

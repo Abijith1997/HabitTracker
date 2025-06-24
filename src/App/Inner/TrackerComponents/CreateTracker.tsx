@@ -93,10 +93,10 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
   };
 
   return (
-    <div className="overflow-x-auto shadow-md p-2 sm:p-5 flex items-center justify-start rounded-md bg-white/70">
-      <div className="flex sm:gap-[1px] gap-0">
+    <div className="overflow-x-auto shadow-md px-2 py-5 sm:p-5 flex items-center justify-start rounded-md bg-white/70">
+      <div className="flex gap-[1px]">
         {Array.from({ length: Math.ceil(365 / 7) }).map((_, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col sm:gap-[1px] gap-0">
+          <div key={weekIndex} className="flex flex-col gap-[1px] rounded-md">
             {Array.from({ length: 7 }).map((_, dayIndex) => {
               const blockIndex = weekIndex * 7 + dayIndex + 1;
               if (blockIndex >= 365) return null;
@@ -109,7 +109,7 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
                   key={blockIndex}
                   className={cn(
                     // Mobile: no border/gap/rounding — Desktop: normal style
-                    "w-[7px] h-[30px] sm:w-[10px] sm:h-[10px] bg-neutral-200 sm:border sm:rounded-[3px]",
+                    "w-[10px] h-[10px] bg-neutral-200 sm:border rounded-[2px]",
                     isActive ? setFillColor(count, habit.color) : ""
                   )}
                 ></div>
