@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   Card,
   CardContent,
@@ -20,7 +21,23 @@ interface TrackerTabsProps {
 }
 
 export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
+  const [trackerValue, setTrackerValue] = useState<string>("");
+
+  useEffect(() => {
+    if (habits.length > 0 && habits[0]) {
+      console.log(habits[0].habit_name);
+      setTrackerValue(habits[0].habit_name);
+    }
+  }, [habits]);
+
   const setCardBg = (color: string) => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 640; // Tailwind's `sm` breakpoint
+
+    if (isMobile) {
+      return "bg-transparent shadow-none border-none";
+    }
+
+    // Desktop fallback
     switch (color) {
       case "red":
         return "bg-red-500/10";
@@ -38,12 +55,20 @@ export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
   };
   return (
     <div className="min-w-full flex items-center justify-center p-1">
-      <div className="flex w-full  flex-col gap-6 ">
-        <Tabs defaultValue="account">
-          <TabsList>
+      <div className="flex w-full  flex-col gap-6 bg-red">
+        <Tabs
+          value={trackerValue}
+          onValueChange={setTrackerValue}
+          className="w-full"
+        >
+          <TabsList className="w-full">
             {habits &&
               habits.map((habit) => (
-                <TabsTrigger value={habit.habit_name} key={habit.habit_name}>
+                <TabsTrigger
+                  value={habit.habit_name}
+                  key={habit.habit_name}
+                  onClick={() => setTrackerValue(habit.habit_name)}
+                >
                   {habit.habit_name}
                 </TabsTrigger>
               ))}
@@ -57,7 +82,7 @@ export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
                     <CardDescription>Track your progress here</CardDescription>
                   </CardHeader>
                   <CardContent className="flex w-full p-0">
-                    <div className="flex w-full items-center justify-center gap-3">
+                    <div className="flex w-full items-center justify-center gap-3 h-full">
                       <CreateTracker habit={habit} />
                     </div>
                   </CardContent>

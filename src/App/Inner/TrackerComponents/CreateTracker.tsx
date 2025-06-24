@@ -29,11 +29,6 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
     }
   }, [habit]);
   const setFillColor = (days: number, color: string) => {
-    let bgColor = "";
-
-    console.log(days, "days");
-    console.log(bgColor, "bgColor");
-
     if (days === 1) {
       switch (color) {
         case "red":
@@ -98,27 +93,31 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
   };
 
   return (
-    <div className="overflow-x-auto gap-[0.5px] shadow-md p-5 flex items-center justify-center tracker rounded-md bg-white/70">
-      {Array.from({ length: Math.ceil(365 / 7) }).map((_, weekIndex) => (
-        <div key={weekIndex} className="flex flex-col gap-[0.5px]">
-          {Array.from({ length: 7 }).map((_, dayIndex) => {
-            const blockIndex = weekIndex * 7 + dayIndex + 1;
-            if (blockIndex >= 365) return null;
+    <div className="overflow-x-auto shadow-md p-2 sm:p-5 flex items-center justify-start rounded-md bg-white/70">
+      <div className="flex sm:gap-[1px] gap-0">
+        {Array.from({ length: Math.ceil(365 / 7) }).map((_, weekIndex) => (
+          <div key={weekIndex} className="flex flex-col sm:gap-[1px] gap-0">
+            {Array.from({ length: 7 }).map((_, dayIndex) => {
+              const blockIndex = weekIndex * 7 + dayIndex + 1;
+              if (blockIndex >= 365) return null;
 
-            const isActive = days.includes(blockIndex);
-            const count = days.filter((day) => day === blockIndex).length;
-            return (
-              <div
-                key={blockIndex}
-                className={cn(
-                  "w-3 h-3 border rounded-[3px]",
-                  isActive ? setFillColor(count, habit.color) : "bg-black/30"
-                )}
-              ></div>
-            );
-          })}
-        </div>
-      ))}
+              const isActive = days.includes(blockIndex);
+              const count = days.filter((day) => day === blockIndex).length;
+
+              return (
+                <div
+                  key={blockIndex}
+                  className={cn(
+                    // Mobile: no border/gap/rounding — Desktop: normal style
+                    "w-[7px] h-[30px] sm:w-[10px] sm:h-[10px] bg-neutral-200 sm:border sm:rounded-[3px]",
+                    isActive ? setFillColor(count, habit.color) : ""
+                  )}
+                ></div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

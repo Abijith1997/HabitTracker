@@ -9,9 +9,13 @@ interface HomeProps {
 export const Home = ({ user }: HomeProps) => {
   return (
     <>
-      <div className="min-h-screen min-w-screen bg-[var(--background)] flex flex-col w-full h-full">
-        <Navbar />
-        <Main user={user} />
+      <div className="min-h-screen min-w-screen bg-[var(--background)] flex flex-col w-full h-full relative">
+        <div className="z-10">
+          <Navbar />
+        </div>
+        <div className="z-1 mt-10">
+          <Main user={user} />
+        </div>
       </div>
     </>
   );

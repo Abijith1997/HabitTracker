@@ -17,6 +17,10 @@
   justify-content: center;
 }
 
+.navbar {
+  background-color: hsl(139, 10%, 20%);
+}
+
 .log-table::-webkit-scrollbar, .tracker::-webkit-scrollbar {
   display: none;
 }

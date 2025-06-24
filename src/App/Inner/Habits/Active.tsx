@@ -112,18 +112,20 @@ export const Active = ({
   };
 
   return (
-    <div className="flex w-full p-10">
-      <div className="flex justify-start items-center gap-x-10 gap-y-5 flex-wrap">
+    <div className="flex w-full sm:p-10 p-2 mb-3">
+      <div className="flex justify-start items-center sm:gap-x-10 gap-2 sm:gap-y-5 flex-wrap">
         {habits.map((habit, index) => (
           <div
             className={cn(
-              "flex flex-col border-1 rounded-md hover:scale-102 shadow-md px-5 py-5 gap-5 sm:w-[200px] items-end justify-between transition-all duration-150 ease-in-out flex-wrap",
+              "flex sm:flex-col flex-row-reverse border-1 rounded-md hover:scale-102 shadow-md px-2 w-full sm:px-5 py-2 sm:py-5 gap-5 h-[10] sm:w-[200px] sm:items-end justify-between transition-all duration-150 ease-in-out flex-wrap items-center",
               setBgColor(habit.color)
             )}
             key={index}
           >
-            <div className="w-full flex items-center justify-between">
-              <span className="text-lg font-extrabold">{habit.habit_name}</span>
+            <div className="flex sm:w-full sm:flex items-center justify-between">
+              <span className="hidden sm:flex text-sm sm:text-lg font-extrabold">
+                {habit.habit_name}
+              </span>
               <div className="delete">
                 <IconTrashFilled
                   size={16}
@@ -134,10 +136,10 @@ export const Active = ({
                 />
               </div>
             </div>
-            <div className="flex ">
+            <div className="flex">
               <button
                 className={cn(
-                  "border-1 p-2 rounded-md shadow-md text-sm font-bold hover:scale-101 transition-all duration-150 ease-in-out cursor-pointer flex items-center justify-center gap-3",
+                  "border-1 p-2 rounded-md shadow-md text-xs sm:text-sm font-bold hover:scale-101 transition-all duration-150 ease-in-out cursor-pointer flex items-center justify-center sm:gap-3 gap-1",
                   setButtonBorder(habit.color),
                   setButtonColor(habit.color)
                 )}
@@ -147,7 +149,12 @@ export const Active = ({
                 }}
               >
                 <IconPlus size={16} />
-                Add log
+                <span className="text-xs sm:text-sm font-bold hidden sm:flex">
+                  Add log
+                </span>
+                <span className="text-xs sm:text-sm font-bold flex sm:hidden">
+                  {habit.habit_name}
+                </span>
               </button>
             </div>
           </div>

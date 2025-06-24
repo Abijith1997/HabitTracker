@@ -72,7 +72,7 @@ export const Main = ({ user }: MainProps) => {
   }, [habitLogs, userHasHabits]);
 
   return (
-    <div className="flex justify-start  h-screen w-screen sm:p-25 pt-5 flex-col items-start">
+    <div className="flex justify-start  h-screen w-screen sm:p-25 pt-5 flex-col items-start z-1 px-5">
       <Create
         user={user}
         userHasHabits={userHasHabits}
