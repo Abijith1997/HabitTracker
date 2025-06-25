@@ -117,7 +117,7 @@ export const Active = ({
         {habits.map((habit, index) => (
           <div
             className={cn(
-              "flex sm:flex-col flex-row-reverse border-1 rounded-md hover:scale-102 shadow-md px-2 w-full sm:px-5 py-2 sm:py-5 gap-5 h-[10] sm:w-[200px] sm:items-end justify-between transition-all duration-150 ease-in-out flex-wrap items-center",
+              "flex sm:flex-col sm:h-auto flex-row-reverse border-1 rounded-md hover:scale-102 shadow-md px-2 w-full sm:px-5 py-2 sm:py-5 gap-5 h-[10] sm:w-[200px] sm:items-end justify-between transition-all duration-150 ease-in-out flex-wrap items-center",
               setBgColor(habit.color)
             )}
             key={index}
