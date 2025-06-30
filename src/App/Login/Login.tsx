@@ -1,6 +1,6 @@
-import { Button } from "@heroui/react";
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { supabase } from "../../supabaseClient";
+import { Button } from "../../Components/ui/button";
 
 export const Login = () => {
   const signInWithGoogle = async () => {
@@ -27,6 +27,11 @@ export const Login = () => {
       console.log("User signed in succesfully with Google.");
     }
   };
+
+  const createNew = () => {
+    window.location.href = "/HabitTracker/signup";
+  };
+
   return (
     <div className="h-screen w-screen bg-[var(--background)] flex items-center justify-center">
       <div className="items-center justify-center sm:justify-start sm:max-h-[600px] max-w-[450px] bg-gray-400 h-full w-full sm:rounded-md sm:rounded-0 shadow-lg flex flex-col text-black sm:items-start p-10 gap-5">
@@ -57,8 +62,7 @@ export const Login = () => {
         </div>
         <div className="flex items-center justify-center w-full">
           <Button
-            variant="solid"
-            className="w-auto h-10 flex items-center justify-center gap-2 text-white rounded-md "
+            className="w-auto h-10 flex items-center justify-center gap-2 text-white rounded-md cursor-pointer"
             color="primary"
           >
             Login
@@ -72,7 +76,11 @@ export const Login = () => {
         <div className="new w-full flex items-center justify-center">
           <span className="">
             New to the app?{" "}
-            <Button className="text-center flex items-center justify-center">
+            <Button
+              className="text-center flex items-center justify-center rounded-md hover:shadow-md hover:scale-101 cursor-pointer transition-all duration-150 ease-in-out"
+              color="primary"
+              onClick={createNew}
+            >
               Create an account
             </Button>
           </span>
@@ -85,11 +93,10 @@ export const Login = () => {
         <div className="google-button w-full flex items-center justify-center">
           <Button
             onClick={onGoogleSignIn}
-            variant="solid"
             color="default"
-            className="w-auto h-10 flex items-center justify-center gap-2"
+            className="w-auto h-10 flex items-center justify-center gap-2 cursor-pointer"
           >
-            <IconBrandGoogleFilled size={24} color="black" />
+            <IconBrandGoogleFilled size={24} color="white" />
           </Button>
         </div>
       </div>

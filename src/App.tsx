@@ -5,6 +5,7 @@ import { supabase } from "./supabaseClient";
 import type { User } from "@supabase/supabase-js";
 import { Login } from "./App/Login/Login";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { SignUp } from "./App/Login/SignUp";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -31,6 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={user ? <Home user={user} /> : <Login />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
     </>
