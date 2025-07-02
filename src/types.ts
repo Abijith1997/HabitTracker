@@ -1,6 +1,6 @@
 export interface Habit {
   id?: string;
-  uid: string;
+  uid: string | null;
   habit_name: string;
   color: string;
   created_at?: string;

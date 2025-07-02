@@ -9,7 +9,7 @@ import { setLogs } from "../../store/habitSlice";
 import { Tracker } from "./TrackerComponents/Tracker";
 
 interface MainProps {
-  user: User;
+  user: User | null;
 }
 
 export interface habitProps {
@@ -27,20 +27,45 @@ export const Main = ({ user }: MainProps) => {
 
   useEffect(() => {
     const fetchUserHabits = async () => {
-      const { data, error } = await supabase
-        .from("HabitLogs")
-        .select()
-        .eq("uid", user.id); // replace "user_id" with your actual column name
+      if (!user) {
+        try {
+          const guestLogs = JSON.parse(
+            localStorage.getItem("guest_habits") || "[]"
+          );
 
-      if (error) {
-        console.error("Error fetching habits:", error.message);
-      } else {
-        dispatch(setLogs(data));
-        setUserHasHabits(data.length > 0);
+          dispatch(setLogs(guestLogs));
+          setUserHasHabits(guestLogs.length > 0);
+        } catch (error) {
+          console.error("❌ Failed to fetch guest habits:", error);
+          dispatch(setLogs([]));
+          setUserHasHabits(false);
+        }
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from("HabitLogs")
+          .select()
+          .eq("uid", user.id);
+
+        if (error) {
+          console.error("Error fetching habits from Supabase:", error.message);
+          dispatch(setLogs([]));
+          setUserHasHabits(false);
+        } else {
+          dispatch(setLogs(data));
+          setUserHasHabits(data.length > 0);
+        }
+      } catch (err) {
+        console.error("❌ Unexpected error fetching habits:", err);
+        dispatch(setLogs([]));
+        setUserHasHabits(false);
       }
     };
+
     fetchUserHabits();
-  }, [shouldRefetch]);
+  }, [shouldRefetch, user]);
 
   useEffect(() => {
     if (habitLogs.length > 0) {
@@ -68,6 +93,8 @@ export const Main = ({ user }: MainProps) => {
       );
 
       setHabits(uniqueHabits);
+    } else {
+      setHabits([]); // ✅ Clear habits on logout or no data
     }
   }, [habitLogs, userHasHabits]);
 

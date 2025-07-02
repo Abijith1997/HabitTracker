@@ -24,7 +24,6 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
         return dayOfYear;
       });
 
-      console.log(dayNumbers); // e.g., [170, 171, ...]
       setDays(dayNumbers);
     }
   }, [habit]);
@@ -93,10 +92,13 @@ export const CreateTracker = ({ habit }: TrackerProps) => {
   };
 
   return (
-    <div className="overflow-x-auto shadow-md px-2 py-5 sm:p-5 flex items-center justify-start rounded-md bg-white/70">
+    <div className="overflow-x-auto shadow-md px-2 py-5 sm:p-5 flex items-center justify-center rounded-md bg-white/70">
       <div className="flex gap-[1px]">
         {Array.from({ length: Math.ceil(365 / 7) }).map((_, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-[1px] rounded-md">
+          <div
+            key={weekIndex}
+            className="flex flex-col gap-[1px] rounded-md w-full"
+          >
             {Array.from({ length: 7 }).map((_, dayIndex) => {
               const blockIndex = weekIndex * 7 + dayIndex + 1;
               if (blockIndex >= 365) return null;

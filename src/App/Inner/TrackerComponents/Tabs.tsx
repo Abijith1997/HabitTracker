@@ -25,7 +25,6 @@ export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
 
   useEffect(() => {
     if (habits.length > 0 && habits[0]) {
-      console.log(habits[0].habit_name);
       setTrackerValue(habits[0].habit_name);
     }
   }, [habits]);
@@ -81,8 +80,8 @@ export const TrackerTabs = ({ habits }: TrackerTabsProps) => {
                     <CardTitle>{habit.habit_name}</CardTitle>
                     <CardDescription>Track your progress here</CardDescription>
                   </CardHeader>
-                  <CardContent className="flex w-full p-0">
-                    <div className="flex w-full items-center justify-center gap-3 h-full">
+                  <CardContent className="flex w-full p-0 ">
+                    <div className="flex w-full items-center justify-center gap-3">
                       <CreateTracker habit={habit} />
                     </div>
                   </CardContent>

@@ -7,8 +7,16 @@ import {
 import { IconSettings } from "@tabler/icons-react";
 import { supabase } from "../supabaseClient";
 import { useNavigate } from "react-router-dom";
+import { Button } from "./ui/button";
+import type { User } from "@supabase/supabase-js";
 
-export const Navbar = () => {
+export const Navbar = ({
+  user,
+  setUser,
+}: {
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+}) => {
   const navigate = useNavigate();
 
   return (
@@ -18,37 +26,47 @@ export const Navbar = () => {
           Tracker
         </h1>
       </div>
-      <div className="navbar-right">
-        <Dropdown>
-          <DropdownTrigger>
-            <IconSettings
-              size={32}
-              color={"white"}
-              className="hover:cursor-pointer hover:scale-110 transition-all duration-150 focus:outline-0"
-            />
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Static Actions"
-            className="flex flex-col bg-gray-800 px-5 py-3 rounded-md gap-2 shadow-md"
+      <div className="navbar-right flex gap-5">
+        {!user ? (
+          <Button
+            className="cursor-pointer hover:scale-101"
+            onClick={() => navigate("/login")}
           >
-            <DropdownItem
-              key="settings"
-              className="text-white hover:scale-110 hover:bg-gray-500 transition-all duration-150 rounded-md p-2 cursor-pointer"
+            Log In
+          </Button>
+        ) : (
+          <Dropdown>
+            <DropdownTrigger>
+              <IconSettings
+                size={32}
+                color={"white"}
+                className="hover:cursor-pointer hover:scale-110 transition-all duration-150 focus:outline-0"
+              />
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Static Actions"
+              className="flex flex-col bg-gray-800 px-5 py-3 rounded-md gap-2 shadow-md"
             >
-              Settings
-            </DropdownItem>
-            <DropdownItem
-              key="logout"
-              className="text-white hover:scale-110 hover:bg-red-500 transition-all duration-150 rounded-md p-2 cursor-pointer"
-              onClick={() => {
-                supabase.auth.signOut();
-                navigate("/login");
-              }}
-            >
-              Logout
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+              <DropdownItem
+                key="settings"
+                className="text-white hover:scale-110 hover:bg-gray-500 transition-all duration-150 rounded-md p-2 cursor-pointer"
+              >
+                Settings
+              </DropdownItem>
+              <DropdownItem
+                key="logout"
+                className="text-white hover:scale-110 hover:bg-red-500 transition-all duration-150 rounded-md p-2 cursor-pointer"
+                onClick={async () => {
+                  await supabase.auth.signOut();
+                  navigate("/");
+                  setUser(null);
+                }}
+              >
+                Logout
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        )}
       </div>
     </div>
   );

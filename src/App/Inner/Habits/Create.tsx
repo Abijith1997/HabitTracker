@@ -7,7 +7,7 @@ import { LogDrawer } from "./DrawerComponents/LogDrawer";
 import type { HabitLog } from "../../../store/habitSlice";
 
 interface Props {
-  user: User;
+  user: User | null;
   userHasHabits: boolean;
   setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
   habitLogs: HabitLog[];

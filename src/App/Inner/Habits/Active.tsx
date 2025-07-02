@@ -9,7 +9,7 @@ import { cn } from "../../../lib/utils";
 interface ActiveProps {
   userHasHabits: boolean;
   habits: habitProps[];
-  user: User;
+  user: User | null;
   setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -26,38 +26,78 @@ export const Active = ({
   }
 
   const AddLog = (habit: habitProps) => {
-    const today = new Date().toISOString().split("T")[0]; // e.g., "2025-06-19"
+    const today = new Date().toISOString().split("T")[0];
 
     const newLog = {
-      uid: user?.id,
+      uid: user?.id ?? null,
       habit_name: habit.habit_name,
       log_date: today,
       created_at: new Date().toISOString(),
       color: habit.color,
     };
-    dispatch(addHabitToDB(newLog))
-      .unwrap()
-      .then((res) => {
-        console.log("✅ Log added:", res);
-        setShouldRefetch((prev) => !prev);
-      })
 
-      .catch((err) => {
-        console.error("❌ Failed to add log:", err);
-      });
+    if (user) {
+      // ✅ Authenticated: log to Supabase
+      dispatch(addHabitToDB(newLog))
+        .unwrap()
+        .then((res) => {
+          console.log("✅ Log added to Supabase:", res);
+          setShouldRefetch((prev) => !prev);
+        })
+        .catch((err) => {
+          console.error("❌ Failed to add log:", err);
+        });
+    } else {
+      // ✅ Guest: log to localStorage
+      try {
+        const guestLogs = JSON.parse(
+          localStorage.getItem("guest_habits") || "[]"
+        );
+
+        const updatedLogs = [...guestLogs, newLog];
+
+        localStorage.setItem("guest_habits", JSON.stringify(updatedLogs));
+        console.log("✅ Log added to localStorage");
+
+        setShouldRefetch((prev) => !prev);
+      } catch (err) {
+        console.error("❌ Failed to save log locally:", err);
+      }
+    }
   };
 
   const deleteHabit = (habit: habitProps) => {
-    dispatch(deleteHabitFromDB(habit))
-      .unwrap()
-      .then((res) => {
-        console.log("✅ Habit deleted:", res);
-        setShouldRefetch((prev) => !prev);
-      })
+    if (user) {
+      // ✅ Authenticated user: delete from Supabase
+      dispatch(deleteHabitFromDB(habit))
+        .unwrap()
+        .then((res) => {
+          console.log("✅ Habit deleted from Supabase:", res);
+          setShouldRefetch((prev) => !prev);
+        })
+        .catch((err) => {
+          console.error("❌ Failed to delete habit:", err);
+        });
+    } else {
+      // ✅ Guest: delete from localStorage
+      try {
+        const guestHabits = JSON.parse(
+          localStorage.getItem("guest_habits") || "[]"
+        );
 
-      .catch((err) => {
-        console.error("❌ Failed to delete habit:", err);
-      });
+        // Remove matching habit by name
+        const updatedHabits = guestHabits.filter(
+          (h: habitProps) => h.habit_name !== habit.habit_name
+        );
+
+        localStorage.setItem("guest_habits", JSON.stringify(updatedHabits));
+
+        console.log("✅ Habit deleted from localStorage");
+        setShouldRefetch((prev) => !prev);
+      } catch (err) {
+        console.error("❌ Failed to delete habit locally:", err);
+      }
+    }
   };
 
   const setBgColor = (color: string) => {

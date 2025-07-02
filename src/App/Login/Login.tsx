@@ -1,8 +1,20 @@
 import { IconBrandGoogleFilled } from "@tabler/icons-react";
 import { supabase } from "../../supabaseClient";
 import { Button } from "../../Components/ui/button";
+import type { User } from "@supabase/supabase-js";
+import { useEffect } from "react";
 
-export const Login = () => {
+interface LoginProps {
+  user: User | null;
+}
+
+export const Login = ({ user }: LoginProps) => {
+  useEffect(() => {
+    if (user && window.location.pathname !== "/HabitTracker/") {
+      window.location.replace("/HabitTracker/");
+    }
+  }, [user]);
+
   const signInWithGoogle = async () => {
     console.log("in sign in function");
     const { error } = await supabase.auth.signInWithOAuth({

@@ -10,7 +10,7 @@ export const AddNew = ({
   setShouldRefetch,
   setIsOpen,
 }: {
-  user: User;
+  user: User | null;
   setShouldRefetch: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
@@ -66,15 +66,27 @@ export const AddNew = ({
     }
 
     const newHabit = {
-      uid: user.id,
+      uid: user?.id ?? null,
       habit_name: habitName,
       color: color,
       created_at: new Date().toISOString(),
     };
 
     try {
-      const result = await dispatch(addHabitToDB(newHabit)).unwrap();
-      console.log("✅ Habit added:", result.payload);
+      if (user) {
+        // ✅ Save to Supabase if logged in
+        const result = await dispatch(addHabitToDB(newHabit)).unwrap();
+        console.log("✅ Habit added to Supabase:", result.payload);
+      } else {
+        const localHabits = JSON.parse(
+          localStorage.getItem("guest_habits") || "[]"
+        );
+        localStorage.setItem(
+          "guest_habits",
+          JSON.stringify([...localHabits, newHabit])
+        );
+        console.log("✅ Habit added to localStorage");
+      }
       setShouldRefetch((prev) => !prev);
       setIsOpen(false);
       inputRef.current!.value = "";

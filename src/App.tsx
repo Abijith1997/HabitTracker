@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import "./App.css";
 import { Home } from "./App/Inner/Home";
-import { supabase } from "./supabaseClient";
-import type { User } from "@supabase/supabase-js";
 import { Login } from "./App/Login/Login";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import { SignUp } from "./App/Login/SignUp";
+import { useEffect, useState } from "react";
+import type { User } from "@supabase/supabase-js";
+import { supabase } from "./supabaseClient";
 
 function App() {
   const [user, setUser] = useState<User | null>(null);
@@ -24,14 +24,14 @@ function App() {
       setUser(data?.user);
     };
     fetchUser();
-  }, []); // <- Run only once on component mount
+  }, []);
 
   return (
     <>
       <Router basename="/HabitTracker">
         <Routes>
-          <Route path="/" element={user ? <Home user={user} /> : <Login />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Home user={user} setUser={setUser} />} />
+          <Route path="/login" element={<Login user={user} />} />
           <Route path="/signup" element={<SignUp />} />
         </Routes>
       </Router>
